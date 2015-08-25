@@ -101,18 +101,19 @@ def transitions_table(transitions, states, alphabet):
     check_transitions(transitions, states, alphabet)
 
     table = []
-    for state in states:
+    for current in states:
         for read in alphabet:
             # DEBUG: print(state, read)
-            next_state, write, head_delta = transitions(state, read)
-            table.append([state, read, next_state, write, head_delta])
+            next, write, move = transitions(current, read)
+            table.append([current, read, next, write, move])
 
-    df = pd.DataFrame(table, columns = ['state', 'read', 'next_state', 'write', 'head_delta'])
+    df = pd.DataFrame(table, columns = ['current', 'read', 'next', 'write', 'move'])
     return df
 
 def simulate(transitions_options,
              transitions_default=None,
-             input='10101', unary=False, pause=0.05, step_from=0, step_to=100, step_slack=100):
+             input='10101', unary=False, input_unary=12,
+             pause=0.05, step_from=0, step_to=100, step_slack=100):
 
     # widgets to specify the range of steps to simulate
     from_w = widgets.IntText(value=step_from, description="simulate from step")
@@ -136,7 +137,7 @@ def simulate(transitions_options,
 
     unary_w = widgets.Checkbox(value=unary, description='unary?')
 
-    input_unary_w = widgets.IntText(value=10, description='input number')
+    input_unary_w = widgets.IntText(value=input_unary, description='input number')
 
     def update():
         if unary_w.value:
