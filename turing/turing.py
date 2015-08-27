@@ -156,7 +156,7 @@ def simulate(transitions_options,
     box = widgets.VBox(children=[simulate_w, from_w, to_w, unary_w, input_unary_w])
     display(box)
 
-    # transitions_options = {'copy': transitions_copy, 'power': transitions_power}
+    # select which Turing machine code to run
     transitions_w = widgets.Dropdown()
     transitions_w.options = transitions_options
     if transitions_default:
