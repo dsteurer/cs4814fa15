@@ -110,14 +110,17 @@ def transitions_table(transitions, states, alphabet):
     df = pd.DataFrame(table, columns = ['current', 'read', 'next', 'write', 'move'])
     return df
 
-def simulate(transitions_options,
-             transitions_default=None,
+def simulate(transitions,
              input='10101', unary=False, input_unary=12,
              pause=0.05, step_from=0, step_to=100, step_slack=100):
+    """loads widget to simulate a given TM"""
+
 
     # widgets to specify the range of steps to simulate
     from_w = widgets.IntText(value=step_from, description="simulate from step")
     to_w = widgets.IntText(value=step_to, description="simulate to step")
+
+    pause_w = widgets.FloatText(value=pause, description="pause between steps");
 
     # widget to indicate current step
     steps_w = widgets.IntSlider(min=0, max=step_to + step_slack, value=0, description="current step")
@@ -127,7 +130,7 @@ def simulate(transitions_options,
         steps_w.max = to_w.value + step_slack
         for steps in xrange(from_w.value, to_w.value+1):
             steps_w.value = steps
-            sleep(pause)
+            sleep(pause_w.value)
 
     # button to start animated simulation
     simulate_w = widgets.Button(description='simulate')
@@ -153,15 +156,9 @@ def simulate(transitions_options,
     input_unary_w.on_trait_change(update)
 
     # display control widgets
-    box = widgets.VBox(children=[simulate_w, from_w, to_w, unary_w, input_unary_w])
+    box = widgets.VBox(children=[simulate_w, from_w, to_w, pause_w, unary_w, input_unary_w])
     display(box)
-
-    # select which Turing machine code to run
-    transitions_w = widgets.Dropdown()
-    transitions_w.options = transitions_options
-    if transitions_default:
-        transitions_w.value = transitions_default
 
     # widgets to display simulation
     interact(display_wrap(run),
-             transitions=transitions_w, input=input_w, steps=steps_w)
+             transitions=fixed(transitions), input=input_w, steps=steps_w)
