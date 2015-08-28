@@ -63,13 +63,11 @@ class Configuration:
         return "<div class='configuration'>" + state_html(self.state) + tape_html(self.tape,self.head) + '</div>'
 
 def sanitize_transitions(transitions):
-    """sanitize transitions for 'accept' and 'reject' states and for '|>' (beginning of the tape)"""
+    """sanitize transitions for final states"""
 
     def new_transitions(state, read):
-        if state in ('accept','reject'):
+        if state in ('accept', 'reject', 'halt'):
             return state, read, (1 if read == '|>' else -1)
-        elif read == '|>':
-            return 'start', read, 1
         else:
             return transitions(state, read)
 
