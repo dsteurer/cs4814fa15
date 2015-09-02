@@ -19,6 +19,12 @@ run ipython notebook in repository
 ipython notebook
 ```
 
+## Usage
+
+### IPython Notebook
+
+After starting the ipython notebook server (see Installation), select the desired notebook and run all the cells in order (select `Cell | Run All` in the ipython notebook menu).
+
 ## Requirements
 
 * [git](https://git-scm.com/)
