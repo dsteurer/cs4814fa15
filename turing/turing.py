@@ -41,7 +41,7 @@ def init():
 
 def tape_html(tape, head):
     h = ""
-    for i in xrange(0, len(tape)):
+    for i in range(0, len(tape)):
         symbol_html = str(tape[i]) if tape[i] != ' ' else '&nbsp;'
         head_class = ' head' if i == head else ''
         h += "<span class='box tape%s'>%s</span>" % (head_class, symbol_html)
@@ -126,7 +126,7 @@ def simulate(transitions,
     # subroutine to animate the simulation
     def animate(x):
         steps_w.max = to_w.value + step_slack
-        for steps in xrange(from_w.value, to_w.value+1):
+        for steps in range(from_w.value, to_w.value+1):
             steps_w.value = steps
             sleep(pause_w.value)
 
